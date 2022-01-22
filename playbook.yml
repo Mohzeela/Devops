@@ -1,0 +1,45 @@
+- name: create file and set ACl in host 1
+  hosts: stapp01
+  become: yes
+  tasks: 
+      - name: create a new file
+        file: 
+          path: /opt/dba/blog.txt
+          state: touch
+      - name: Set ACL for blog.txt
+        acl:
+          path: /opt/dba/blog.txt
+          entity: tony
+          etype: group
+          permissions: r
+          state: present
+- name: create file and set ACl in host 2
+  hosts: stapp02
+  become: yes
+  tasks: 
+      - name: create a new file
+        file:
+          path: /opt/dba/story.txt
+          state: touch
+      - name: Set ACL for story.txt
+        acl:
+          path: /opt/dba/story.txt
+          entity: steve
+          etype: group
+          permissions: rw
+          state: present
+- name: create file and set ACl in host 3
+  hosts: stapp03
+  become: yes
+  tasks: 
+      - name: create a new file
+        file:
+          path: /opt/dba/media.txt
+          state: touch
+      - name: Set ACL for media.txt
+        acl:
+          path: /opt/dba/media.txt
+          entity: banner
+          etype: group
+          permissions: rw
+          state: present
