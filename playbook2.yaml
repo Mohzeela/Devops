@@ -1,0 +1,33 @@
+- name: create archive and set permission
+  hosts: stapp01
+  become: yes
+  tasks:
+      - name: create a new file
+        archive:
+            path: /usr/src/itadmin/
+            dest: /opt/itadmin/apps.tar.gz
+            format: gz
+            owner: tony
+            group: tony
+- name: create archive and set permission
+  hosts: stapp02
+  become: yes
+  tasks:
+      - name: create a new file
+        archive:
+            path: /usr/src/itadmin/
+            dest: /opt/itadmin/apps.tar.gz
+            format: gz
+            owner: steve
+            group: steve
+- name: create archive and set permission
+  hosts: stapp03
+  become: yes
+  tasks:
+      - name: create a new file
+        archive:
+            path: /usr/src/itadmin/
+            dest: /opt/itadmin/apps.tar.gz
+            format: gz
+            owner: banner
+            group: banner
