@@ -1,0 +1,32 @@
+- name: install apache and php on app server 1
+  hosts: stapp01
+  become: yes
+  tasks:
+  - name: install httpd and php
+    yum:
+       name:
+       - httpd
+       - php
+       state: present
+  - name: create a new directory
+    file:
+        path: /var/www/html/myroot
+        state: directory
+        owner: apache
+        group: apache
+  - name: copy files from jumphost to app server 1
+    copy:
+        src: /home/thor/playbooks/templates/phpinfo.php.j2
+        dest: /var/www/html/myroot/phpinfo.php
+        owner: apache
+        group: apache
+  - name: change defult apache document root in apache config
+    replace:
+      path: /etc/httpd/conf/httpd.conf
+      regexp: \"\/var\/www\/html\"
+      replace: "/var/www/html/myroot"
+  - name: start and enable httpd service
+    ansible.builtin.service:
+             name: httpd
+             state: started
+             enabled: yes
